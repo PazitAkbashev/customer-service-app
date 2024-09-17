@@ -1,0 +1,61 @@
+/* קובץ CSS לדוגמה עבור דף הבית */
+
+.home-page {
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  .home-page h1 {
+    color: #333;
+  }
+  
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .post {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .post h2 {
+    color: #007bff;
+  }
+  
+  .post-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .post-actions button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .post-actions button:hover {
+    background-color: #0056b3;
+  }
+  
+  .create-post-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .create-post-btn:hover {
+    background-color: #0056b3;
+  }  

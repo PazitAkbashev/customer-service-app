@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const PostCreation = () => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [category, setCategory] = useState('recommend');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,7 +14,7 @@ const PostCreation = () => {
 
     axios.post('/api/posts', postData)
       .then(() => {
-        history.push('/');
+         navigate('/new-path');
       })
       .catch(err => console.error(err));
   };

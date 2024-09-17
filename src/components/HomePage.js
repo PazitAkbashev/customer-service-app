@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
+import '../style/homeStyle.css'
 
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
