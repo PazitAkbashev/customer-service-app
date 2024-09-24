@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../style/loginStyle.css';
+import '../style/registerStyle.css';
 
-function LoginPage() {
+function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -13,27 +14,17 @@ function LoginPage() {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post('http://localhost:5000/api/auth/register', {
         username,
         password,
+        email,
       });
 
-      // Handle successful login
-      const user = response.data.user;  // נשלוף את פרטי המשתמש שהתקבלו מהשרת
-      const token = response.data.token;
-
-      // שמירת המשתמש בלוקאל סטורג'
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify({
-        id: user.id, // מזהה נורמלי שמתקבל מהשרת
-        username: user.username,
-        role: user.role
-      }));
-
-      console.log('User logged in:', user);
+      // Handle successful registration
+      console.log('User registered:', response.data.user);
       
-      // Redirect to home page after successful login
-      navigate('/home');
+      // Redirect to login page after successful registration
+      navigate('/login');
     } catch (err) {
       // Handle errors
       setError(err.response?.data?.message || 'An error occurred');
@@ -41,8 +32,8 @@ function LoginPage() {
   };
 
   return (
-    <div className="login-page">
-      <h1>Login</h1>
+    <div className="register-page">
+      <h1>Register</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Username</label>
@@ -62,15 +53,20 @@ function LoginPage() {
             required
           />
         </div>
+        <div>
+          <label>Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
         {error && <p className="error">{error}</p>}
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
       </form>
-      <div className="register-link">
-        <p>Don't have an account?</p>
-        <button onClick={() => navigate('/register')}>Register</button>
-      </div>
     </div>
   );
 }
 
-export default LoginPage;
+export default RegisterPage;
