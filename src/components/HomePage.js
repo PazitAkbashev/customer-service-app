@@ -8,12 +8,15 @@ const HomePage = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null); // הוספת מצב לשגיאות
   const navigate = useNavigate();
+  
+  // בדיקת סוג המשתמש
+  const isGuest = localStorage.getItem('guest') === 'true'; // הנח שיש לך מפתח 'guest' ב-localStorage
 
   useEffect(() => {
     const token = localStorage.getItem('token'); // קבלת ה-Token
 
     // Fetch posts from the server
-    axios.get('http://localhost:5000/api/posts', { // עדכון ל-URL הנכון
+    axios.get('http://localhost:5000/api/posts', {
       headers: {
         Authorization: `Bearer ${token}` // הוספת ה-Token לבקשה
       }
@@ -25,13 +28,13 @@ const HomePage = () => {
         console.error(err);
         setError('Failed to fetch posts.'); // שמירה על שגיאה במצב
       });
-}, []);
-
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('guest');
     localStorage.removeItem('currentUser');
-    localStorage.removeItem('user');
+    localStorage.removeItem('userType'); // הסרת סוג המשתמש
     navigate('/login');
   };
 
@@ -60,7 +63,14 @@ const HomePage = () => {
           <p>No posts available.</p> // הודעה אם אין פוסטים
         )}
       </div>
-      <Link to="/create-post" className="create-post-btn">Create New Post</Link>
+
+      {/* בדיקה אם המשתמש הוא לא guest */}
+      {!isGuest && (
+        <>
+          <Link to="/create-post" className="create-post-btn">Create New Post</Link>
+          <Link to="/profile" className="profile-btn">Go to Profile</Link> {/* כפתור לעבור לעמוד הפרופיל */}
+        </>
+      )}
       
       <button onClick={handleLogout} className="logout-btn">Logout</button>
     </div>
