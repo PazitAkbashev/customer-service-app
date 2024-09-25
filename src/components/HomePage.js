@@ -13,7 +13,7 @@ const HomePage = () => {
     const token = localStorage.getItem('token'); // קבלת ה-Token
 
     // Fetch posts from the server
-    axios.get('http://localhost:5000/api/posts', {
+    axios.get('http://localhost:5000/api/posts', { // עדכון ל-URL הנכון
       headers: {
         Authorization: `Bearer ${token}` // הוספת ה-Token לבקשה
       }
@@ -25,7 +25,8 @@ const HomePage = () => {
         console.error(err);
         setError('Failed to fetch posts.'); // שמירה על שגיאה במצב
       });
-  }, []);
+}, []);
+
 
   const handleLogout = () => {
     localStorage.removeItem('token');

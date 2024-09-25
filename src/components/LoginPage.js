@@ -19,13 +19,13 @@ function LoginPage() {
       });
 
       // Handle successful login
-      const user = response.data.user;  // נשלוף את פרטי המשתמש שהתקבלו מהשרת
+      const user = response.data.user;
       const token = response.data.token;
 
-      // שמירת המשתמש בלוקאל סטורג'
+      // Save user and token in localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify({
-        id: user.id, // מזהה נורמלי שמתקבל מהשרת
+        id: user.id,
         username: user.username,
         role: user.role
       }));
@@ -38,6 +38,12 @@ function LoginPage() {
       // Handle errors
       setError(err.response?.data?.message || 'An error occurred');
     }
+  };
+
+  // Handle guest login
+  const handleGuestLogin = () => {
+    localStorage.setItem('guest', 'true'); // Set guest mode in localStorage
+    navigate('/home');
   };
 
   return (
@@ -65,6 +71,12 @@ function LoginPage() {
         {error && <p className="error">{error}</p>}
         <button type="submit">Login</button>
       </form>
+      
+      <div className="guest-login">
+        <p>Want to explore as a guest?</p>
+        <button onClick={handleGuestLogin}>Login as Guest</button>
+      </div>
+
       <div className="register-link">
         <p>Don't have an account?</p>
         <button onClick={() => navigate('/register')}>Register</button>
