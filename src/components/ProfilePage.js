@@ -67,7 +67,7 @@ const ProfilePage = () => {
   // Handle navigation back to HomePage
   const handleBackToHome = () => {
     const user = JSON.parse(localStorage.getItem('user'));
-    navigate(`/home/${user.username}`);// כאן ננווט לעמוד הבית
+    navigate(`/home/${user.username}`);
   };
 
   return (
