@@ -33,7 +33,7 @@ function LoginPage() {
       console.log('User logged in:', user);
       
       // Redirect to home page after successful login
-      navigate('/home');
+      navigate(`/home/${user.username}`);
     } catch (err) {
       // Handle errors
       setError(err.response?.data?.message || 'An error occurred');
@@ -41,10 +41,19 @@ function LoginPage() {
   };
 
   // Handle guest login
-  const handleGuestLogin = () => {
-    localStorage.setItem('guest', 'true'); // Set guest mode in localStorage
-    navigate('/home');
+  const handleGuestLogin = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/auth/guest-token');
+      const guestToken = response.data.token;
+  
+      localStorage.setItem('token', guestToken); // שמירת טוקן האורח ב-localStorage
+      localStorage.setItem('guest', 'true'); // סימון המצב כאורח
+      navigate('/home/guest');
+    } catch (err) {
+      console.error('Failed to login as guest:', err);
+    }
   };
+  
 
   return (
     <div className="login-page">

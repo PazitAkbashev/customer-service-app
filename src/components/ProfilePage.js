@@ -1,35 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // הוספת import ל-useNavigate
+import { useNavigate } from 'react-router-dom';
+import '../style/ProfilePage.css';
 
 const ProfilePage = () => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [selectedFile, setSelectedFile] = useState(null); // State for the uploaded image file
+  const [selectedFile, setSelectedFile] = useState(null);
   const [uploadError, setUploadError] = useState(null);
-  const navigate = useNavigate(); // יצירת משתנה navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token'); // קבלת ה-Token
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user')); // קבלת המידע מה-localStorage
 
-    // Fetch user data
-    axios.get('http://localhost:5000/api/auth/user', {
+    if (!user || !user.id) {
+      console.error('User not found in localStorage');
+      return;
+    }
+
+    setUser(user); // שמירת פרטי המשתמש
+
+    // Fetch user's posts using the user's ID
+    axios.get(`http://localhost:5000/api/auth/user/${user.id}/posts`, {
       headers: {
-        Authorization: `Bearer ${token}` // הוספת ה-Token לבקשה
+        Authorization: `Bearer ${token}`
       }
     })
-    .then(response => {
-      setUser(response.data); // שמירת נתוני המשתמש
-      // Fetch user's posts using the user's ID
-      return axios.get(`http://localhost:5000/api/auth/user/${response.data.id}/posts`, {
-        headers: {
-          Authorization: `Bearer ${token}` // הוספת ה-Token לבקשה
-        }
-      });
-    })
-    .then(response => setPosts(response.data)) // שמירת הפוסטים במצב
+    .then(response => setPosts(response.data))
     .catch(err => console.error(err));
-  }, []); // ריצה פעם אחת עם טעינת הרכיב
+  }, []);
 
   // Handle file selection
   const handleFileChange = (e) => {
@@ -46,14 +46,16 @@ const ProfilePage = () => {
     const formData = new FormData();
     formData.append('profilePicture', selectedFile);
 
+    const token = localStorage.getItem('token'); // קבלת ה-token
+
     axios.post('http://localhost:5000/api/user/upload-profile-picture', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`
       },
     })
     .then(response => {
       console.log('Profile picture uploaded successfully:', response.data);
-      setUser(prevUser => ({ ...prevUser, profilePicture: response.data.profilePicture }));
       setUploadError(null);
     })
     .catch(err => {
@@ -64,13 +66,13 @@ const ProfilePage = () => {
 
   // Handle navigation back to HomePage
   const handleBackToHome = () => {
-    navigate('/home'); // כאן ננווט לעמוד הבית
+    const user = JSON.parse(localStorage.getItem('user'));
+    navigate(`/home/${user.username}`);// כאן ננווט לעמוד הבית
   };
 
   return (
     <div className="profile-page">
-      <h1>{user.username}'s Profile</h1>
-      <img src={user.profilePicture} alt={`${user.username}'s profile`} />
+      <h1>{user ? `${user.username}'s Profile` : 'User Profile'}</h1>
       <h2>Upload New Profile Picture:</h2>
       <input type="file" onChange={handleFileChange} />
       {uploadError && <p className="error">{uploadError}</p>}

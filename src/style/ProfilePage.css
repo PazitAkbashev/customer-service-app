@@ -1,0 +1,87 @@
+/* עיצוב למסכים קטנים (טלפונים ניידים) */
+@media (max-width: 600px) {
+    .profile-page {
+      padding: 10px;
+      max-width: 100%; /* ניצול מקסימלי של רוחב המסך */
+    }
+  
+    .profile-page h1 {
+      font-size: 24px; /* כותרת קטנה יותר במסכים קטנים */
+    }
+  
+    .post {
+      padding: 15px; /* מרווח קטן יותר לפוסטים */
+    }
+  
+    button {
+      padding: 8px 16px; /* התאמה של גודל הכפתורים */
+    }
+  
+    .post-actions {
+      flex-direction: column; /* כפתורי הפעולות אחד מתחת לשני */
+      gap: 5px;
+    }
+  
+    img {
+      width: 120px; /* גודל קטן יותר של תמונת הפרופיל */
+      height: 120px;
+    }
+  }
+  
+  /* עיצוב למסכים בינוניים (טאבלטים) */
+  @media (min-width: 601px) and (max-width: 1024px) {
+    .profile-page {
+      padding: 15px;
+      max-width: 90%; /* הצגת הדף ברוחב 90% */
+    }
+  
+    .profile-page h1 {
+      font-size: 28px; /* כותרת בגודל בינוני */
+    }
+  
+    .post {
+      padding: 18px; /* מרווח בינוני לפוסטים */
+    }
+  
+    button {
+      padding: 9px 18px; /* כפתורים בגודל בינוני */
+    }
+  
+    .post-actions {
+      gap: 8px; /* מרווח קטן יותר בין כפתורי הפעולות */
+    }
+  
+    img {
+      width: 140px; /* גודל בינוני של תמונת הפרופיל */
+      height: 140px;
+    }
+  }
+  
+  /* עיצוב למסכים גדולים (מחשבים שולחניים ומחשבים ניידים) */
+  @media (min-width: 1025px) {
+    .profile-page {
+      max-width: 800px; /* עיצוב רחב לדף */
+    }
+  
+    .profile-page h1 {
+      font-size: 32px; /* כותרת גדולה יותר */
+    }
+  
+    .post {
+      padding: 20px; /* מרווח נוח לפוסטים */
+    }
+  
+    button {
+      padding: 10px 20px; /* כפתורים בגודל רגיל */
+    }
+  
+    .post-actions {
+      gap: 10px; /* מרווח רגיל בין כפתורי הפעולות */
+    }
+  
+    img {
+      width: 150px; /* גודל רגיל של תמונת הפרופיל */
+      height: 150px;
+    }
+  }
+  

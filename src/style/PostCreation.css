@@ -1,0 +1,109 @@
+/* Updated CSS for Post Creation Form */
+
+.post-creation {
+    background-color: #f9f9f9;
+    padding: 30px;
+    max-width: 600px;
+    margin: 50px auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post-creation h1 {
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #007bff;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .post-creation form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .post-creation label {
+    font-size: 1.1em;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 5px;
+  }
+  
+  .post-creation input[type="text"], .post-creation textarea, .post-creation select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+  }
+  
+  .post-creation input[type="text"]:focus, .post-creation textarea:focus, .post-creation select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .post-creation textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 10px; /* Spacing between submit and back buttons */
+  }
+  
+  .post-creation button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .post-creation button:hover {
+    background-color: #0056b3;
+  }
+  
+  .post-creation .back-button {
+    background-color: #28a745;
+  }
+  
+  .post-creation .back-button:hover {
+    background-color: #218838;
+  }
+  
+  .post-creation .error {
+    color: #e74c3c;
+    text-align: center;
+    margin-top: 10px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 600px) {
+    .post-creation {
+      padding: 20px;
+      margin: 20px;
+    }
+  
+    .post-creation h1 {
+      font-size: 1.8em;
+    }
+  
+    .post-creation button {
+      padding: 10px;
+      font-size: 1em;
+    }
+  
+    .action-buttons {
+      flex-direction: column;
+      gap: 10px; /* Stack buttons on smaller screens */
+    }
+  }
+  
