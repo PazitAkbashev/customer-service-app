@@ -22,14 +22,15 @@ const ProfilePage = () => {
     setUser(user); // שמירת פרטי המשתמש
 
     // Fetch user's posts using the user's ID
-    axios.get(`http://localhost:5000/api/auth/user/${user.id}/posts`, {
+    axios.get(`http://localhost:5000/api/posts/auth/user/${user.id}/posts`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
     .then(response => setPosts(response.data))
     .catch(err => console.error(err));
-  }, []);
+    console.log("post:", posts);
+  }, [posts]);
 
   // Handle file selection
   const handleFileChange = (e) => {
