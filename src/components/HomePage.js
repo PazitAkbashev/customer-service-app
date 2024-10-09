@@ -124,7 +124,7 @@ const HomePage = () => {
       </div>
       {!isGuest && (
         <>
-           <Link to={`/home/${username}/posts/new`} className="create-post-btn">Create New Post</Link>
+           <Link to={`/home/${username}/create-post`} className="create-post-btn">Create New Post</Link>
            <Link to={`/home/${username}/profile`} className="profile-btn">Go to Profile</Link>        
         </>
       )}

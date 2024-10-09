@@ -18,6 +18,7 @@ function App() {
           <Route path="/home/:username" element={<HomePage />} /> {/* עמוד הבית עם username */}
           <Route path="/home/:username/create-post" element={<PostCreation />} />
           <Route path="/home/:username/profile" element={<ProfilePage />} />
+    
         </Routes>
       </div>
     </Router>

@@ -5,49 +5,53 @@ const CommentsComponent = ({ postId }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState(''); // למעקב אחר תגובה חדשה שנרשמת
   const [error, setError] = useState(null); // מצב לשמירת שגיאות
-  
-  useEffect(() => {
-    // טעינת תגובות מהשרת לפי postId
-    axios.get(`http://localhost:5000/api/posts/${postId}/comments`)
-      .then(response => {
-        setComments(response.data);
-      })
-      .catch(err => {
-        console.error(err);
-        setError('Failed to fetch comments.');
-      });
-  }, [postId]);
+
+  // useEffect(() => {
+  //   // טעינת תגובות מהשרת לפי postId
+  //   const fetchComments = async () => {
+  //     try {
+  //       const response = await axios.get(`http://localhost:5000/api/posts/${postId}/comments`);
+  //       setComments(response.data);
+  //     } catch (err) {
+  //       console.error(err);
+  //       setError('Failed to fetch comments.');
+  //     }
+  //   };
+
+  //   fetchComments();
+  // }, [postId]);
 
   // שליחת תגובה חדשה לשרת
-  const handleAddComment = () => {
+  const handleAddComment = async () => {
     if (newComment.trim() === '') {
       alert('Comment cannot be empty.');
       return;
     }
 
     const token = localStorage.getItem('token');
-    axios.post(`http://localhost:5000/api/posts/${postId}/comments`, {
-      body: newComment, // שליחת התוכן של התגובה החדשה
-    }, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    .then(response => {
+    try {
+      const response = await axios.post(`http://localhost:5000/api/comments`, {
+        body: newComment, // שליחת התוכן של התגובה החדשה
+        postId: postId // שינוי ל postId שנשלח כפרופס
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
       setComments([...comments, response.data]); // הוספת התגובה החדשה לרשימה הקיימת
       setNewComment(''); // ניקוי שדה התגובה
-    })
-    .catch(err => {
+    } catch (err) {
       console.error(err);
       setError('Failed to add comment.');
-    });
+    }
   };
 
   return (
     <div className="comments-section">
       <h3>Comments</h3>
       {error && <p className="error">{error}</p>} {/* הצגת שגיאות אם יש */}
-      
+
       {comments.length > 0 ? (
         <ul>
           {comments.map(comment => (
