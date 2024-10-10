@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const CommentsComponent = ({ postId }) => {
+const CommentsComponent = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState(''); // למעקב אחר תגובה חדשה שנרשמת
   const [error, setError] = useState(null); // מצב לשמירת שגיאות
 
   useEffect(() => {
-    // טעינת תגובות מהשרת לפי postId
+    // טעינת כל התגובות מהשרת
     const fetchComments = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/posts/${postId}/comments`);
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`http://localhost:5000/api/comments`, {
+          headers: {
+            Authorization: `Bearer ${token}` // הוספת טוקן לאוטוריזציה
+          }
+        });
         setComments(response.data);
       } catch (err) {
         console.error(err);
@@ -19,7 +24,7 @@ const CommentsComponent = ({ postId }) => {
     };
 
     fetchComments();
-  }, [postId]);
+  }, []);
 
   // שליחת תגובה חדשה לשרת
   const handleAddComment = async () => {
@@ -32,14 +37,15 @@ const CommentsComponent = ({ postId }) => {
     try {
       const response = await axios.post(`http://localhost:5000/api/comments`, {
         body: newComment, // שליחת התוכן של התגובה החדשה
-        postId: postId // שינוי ל postId שנשלח כפרופס
+        // שימו לב שאין צורך לשלוח postId
       }, {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}` // הוספת טוקן לאוטוריזציה
         }
       });
 
-      setComments([...comments, response.data]); // הוספת התגובה החדשה לרשימה הקיימת
+      // הוספת התגובה החדשה לרשימה הקיימת
+      setComments(prevComments => [...prevComments, response.data]);
       setNewComment(''); // ניקוי שדה התגובה
     } catch (err) {
       console.error(err);
