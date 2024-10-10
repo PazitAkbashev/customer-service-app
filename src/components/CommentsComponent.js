@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const CommentsComponent = () => {
+const CommentsComponent = (props) => {
+  const { postId } = props;
   const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState(''); // למעקב אחר תגובה חדשה שנרשמת
+  const [body, setBody] = useState(''); // לשמור את גוף התגובה החדשה
   const [error, setError] = useState(null); // מצב לשמירת שגיאות
 
   useEffect(() => {
@@ -11,7 +12,7 @@ const CommentsComponent = () => {
     const fetchComments = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:5000/api/comments`, {
+        const response = await axios.get(`http://localhost:5000/api/comments?postId=${postId}`, {
           headers: {
             Authorization: `Bearer ${token}` // הוספת טוקן לאוטוריזציה
           }
@@ -24,29 +25,33 @@ const CommentsComponent = () => {
     };
 
     fetchComments();
-  }, []);
+  }, [postId]); // הוספת postId כתלות
 
   // שליחת תגובה חדשה לשרת
-  const handleAddComment = async () => {
-    if (newComment.trim() === '') {
+  const handleAddComment = async (e) => {
+    e.preventDefault(); // מניעת רענון הדף
+    if (body.trim() === '') {
       alert('Comment cannot be empty.');
       return;
     }
 
-    const token = localStorage.getItem('token');
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.post(`http://localhost:5000/api/comments`, {
-        body: newComment, // שליחת התוכן של התגובה החדשה
-        // שימו לב שאין צורך לשלוח postId
+        body,
+        postId
       }, {
         headers: {
-          Authorization: `Bearer ${token}` // הוספת טוקן לאוטוריזציה
+          'Authorization': `Bearer ${token}`, // הנחה שהטוקן שמור ב-localStorage
         }
       });
 
+      const createdComment = response.data; // קבלת התגובה שנוצרה
+      console.log('Comment created:', createdComment);
+
       // הוספת התגובה החדשה לרשימה הקיימת
-      setComments(prevComments => [...prevComments, response.data]);
-      setNewComment(''); // ניקוי שדה התגובה
+      setComments(prevComments => [...prevComments, createdComment]);
+      setBody(''); // ניקוי שדה התגובה
     } catch (err) {
       console.error(err);
       setError('Failed to add comment.');
@@ -74,11 +79,11 @@ const CommentsComponent = () => {
       {/* טופס להוספת תגובה חדשה */}
       <div className="add-comment">
         <textarea
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
           placeholder="Add a comment..."
         />
-        <button onClick={handleAddComment}>Submit</button>
+        <button onClick={handleAddComment}>Add new comment</button>
       </div>
     </div>
   );
