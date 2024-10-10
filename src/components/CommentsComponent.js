@@ -6,20 +6,20 @@ const CommentsComponent = ({ postId }) => {
   const [newComment, setNewComment] = useState(''); // למעקב אחר תגובה חדשה שנרשמת
   const [error, setError] = useState(null); // מצב לשמירת שגיאות
 
-  // useEffect(() => {
-  //   // טעינת תגובות מהשרת לפי postId
-  //   const fetchComments = async () => {
-  //     try {
-  //       const response = await axios.get(`http://localhost:5000/api/posts/${postId}/comments`);
-  //       setComments(response.data);
-  //     } catch (err) {
-  //       console.error(err);
-  //       setError('Failed to fetch comments.');
-  //     }
-  //   };
+  useEffect(() => {
+    // טעינת תגובות מהשרת לפי postId
+    const fetchComments = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/posts/${postId}/comments`);
+        setComments(response.data);
+      } catch (err) {
+        console.error(err);
+        setError('Failed to fetch comments.');
+      }
+    };
 
-  //   fetchComments();
-  // }, [postId]);
+    fetchComments();
+  }, [postId]);
 
   // שליחת תגובה חדשה לשרת
   const handleAddComment = async () => {
