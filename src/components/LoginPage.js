@@ -45,6 +45,9 @@ function LoginPage() {
     try {
       const response = await axios.get('http://localhost:5000/api/auth/guest-token');
       const guestToken = response.data.token;
+      localStorage.setItem('user', JSON.stringify({
+        username: 'guest',
+      }));
   
       localStorage.setItem('token', guestToken); // שמירת טוקן האורח ב-localStorage
       localStorage.setItem('guest', 'true'); // סימון המצב כאורח

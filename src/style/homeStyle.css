@@ -8,14 +8,14 @@
 
 .home-page h1 {
   color: #333;
-  text-align: center; /* מרכז את הכותרת */
+  text-align: center;
 }
 
 .post-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-top: 20px; /* הוספת רווח מעל רשימת הפוסטים */
+  margin-top: 20px;
 }
 
 .post {
@@ -23,7 +23,7 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .post h2 {
@@ -33,7 +33,7 @@
 .post-actions {
   display: flex;
   gap: 10px;
-  justify-content: space-between; /* ישור את הכפתורים בין הפוסטים */
+  justify-content: space-between;
 }
 
 .post-actions button {
@@ -44,7 +44,7 @@
   border-radius: 5px;
   cursor: pointer;
   display: flex;
-  align-items: center; /* מרכז את האייקון עם הטקסט */
+  align-items: center;
 }
 
 .post-actions button:hover {
@@ -59,7 +59,7 @@
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
-  text-align: center; /* מרכז את הטקסט בכפתור */
+  text-align: center;
 }
 
 .create-post-btn:hover {
@@ -70,15 +70,15 @@
   display: inline-block;
   margin-top: 10px;
   padding: 10px 20px;
-  background-color: #28a745; /* צבע ירוק */
+  background-color: #28a745;
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
-  text-align: center; /* מרכז את הטקסט בכפתור */
+  text-align: center;
 }
 
 .profile-btn:hover {
-  background-color: #218838; /* גוון כהה יותר של ירוק */
+  background-color: #218838;
 }
 
 .logout-btn {
@@ -99,7 +99,24 @@
 }
 
 .error {
-  color: #ff4d4d; /* צבע אדום לשגיאות */
-  text-align: center; /* מרכז את הודעת השגיאה */
-  margin-top: 20px; /* רווח מעל להודעת השגיאה */
+  color: #ff4d4d;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* עיצוב לשדה החיפוש */
+.search-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }

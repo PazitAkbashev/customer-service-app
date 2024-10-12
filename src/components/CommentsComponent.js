@@ -6,6 +6,8 @@ const CommentsComponent = (props) => {
   const [comments, setComments] = useState([]);
   const [body, setBody] = useState(''); // לשמור את גוף התגובה החדשה
   const [error, setError] = useState(null); // מצב לשמירת שגיאות
+  const user = JSON.parse(localStorage.getItem('user'));
+
 
   useEffect(() => {
     // טעינת כל התגובות מהשרת
@@ -39,6 +41,7 @@ const CommentsComponent = (props) => {
       const token = localStorage.getItem('token');
       const response = await axios.post(`http://localhost:5000/api/comments`, {
         body,
+        userId : user.id,
         postId
       }, {
         headers: {
@@ -77,6 +80,7 @@ const CommentsComponent = (props) => {
       )}
 
       {/* טופס להוספת תגובה חדשה */}
+      {user.username !== 'guest' ? (
       <div className="add-comment">
         <textarea
           value={body}
@@ -84,7 +88,11 @@ const CommentsComponent = (props) => {
           placeholder="Add a comment..."
         />
         <button onClick={handleAddComment}>Add new comment</button>
-      </div>
+      </div> 
+      ): ( 
+        <p>guest cant add comments</p> // הודעה אם אין תגובות
+
+      ) }
     </div>
   );
 };

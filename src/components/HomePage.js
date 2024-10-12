@@ -8,6 +8,7 @@ import '../style/homeStyle.css';
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
+  const [searchKeyword, setSearchKeyword] = useState(''); // הוספת מצב עבור מילת החיפוש
   const username = JSON.parse(localStorage.getItem('user')).username;
   const [showComments, setShowComments] = useState({});
   const navigate = useNavigate();
@@ -50,9 +51,7 @@ const HomePage = () => {
     localStorage.removeItem('guest');
     navigate('/login');
   };
-  
 
-  // פונקציה לעדכון ה-Like
   const handleLike = async (postId) => {
     const token = localStorage.getItem('token');
     try {
@@ -61,7 +60,6 @@ const HomePage = () => {
           Authorization: `Bearer ${token}`
         }
       });
-      // עדכון המידע של הפוסט בהתאם לתגובה מהשרת
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
           post.id === postId ? { ...post, likes: response.data.likes } : post
@@ -72,7 +70,6 @@ const HomePage = () => {
     }
   };
 
-  // פונקציה לעדכון ה-Dislike
   const handleDislike = async (postId) => {
     const token = localStorage.getItem('token');
     try {
@@ -81,7 +78,6 @@ const HomePage = () => {
           Authorization: `Bearer ${token}`
         }
       });
-      // עדכון המידע של הפוסט בהתאם לתגובה מהשרת
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
           post.id === postId ? { ...post, dislikes: response.data.dislikes } : post
@@ -92,13 +88,29 @@ const HomePage = () => {
     }
   };
 
+  // פונקציה לסינון הפוסטים לפי מילת מפתח
+  const filteredPosts = posts.filter(post =>
+    post.title.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+    post.body.toLowerCase().includes(searchKeyword.toLowerCase())
+  );
+
   return (
     <div className="home-page">
       <h1>Latest Posts</h1>
       {error && <p className="error">{error}</p>}
+      
+      {/* שדה החיפוש */}
+      <input
+        type="text"
+        placeholder="Search by keyword..."
+        value={searchKeyword}
+        onChange={(e) => setSearchKeyword(e.target.value)}
+        className="search-input"
+      />
+      
       <div className="post-list">
-        {posts.length > 0 ? (
-          posts.map(post => (
+        {filteredPosts.length > 0 ? (
+          filteredPosts.map(post => (
             <div className="post" key={post.id}>
               <h2>{post.title}</h2>
               <p>{post.body}</p>
@@ -122,6 +134,7 @@ const HomePage = () => {
           <p>No posts available.</p>
         )}
       </div>
+
       {!isGuest && (
         <>
            <Link to={`/home/${username}/create-post`} className="create-post-btn">Create New Post</Link>
