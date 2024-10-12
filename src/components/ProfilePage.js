@@ -9,8 +9,10 @@ const ProfilePage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadError, setUploadError] = useState(null);
   const navigate = useNavigate();
-
+  const [loadPosts, setLoadPosts] = useState(true);
   useEffect(() => {
+    if(loadPosts){
+      setLoadPosts(false);
     const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user')); // קבלת המידע מה-localStorage
 
@@ -30,7 +32,8 @@ const ProfilePage = () => {
     .then(response => setPosts(response.data))
     .catch(err => console.error(err));
     console.log("post:", posts);
-  }, [posts]);
+  }
+  }, [posts,loadPosts]);
 
   // Handle file selection
   const handleFileChange = (e) => {
